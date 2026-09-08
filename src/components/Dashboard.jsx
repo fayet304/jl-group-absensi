@@ -34,7 +34,20 @@ export default function Dashboard({ karyawan, aktivitas, shift, offRequests }) {
 
   const sedangIzin = aktivitas.filter((a) => a.status === 'Sedang Izin')
   const offToday = offRequests.filter((o) => o.tanggal === today && o.status !== 'Ditolak')
-  const hadir = Math.max(0, karyawan.length - sedangIzin.length - offToday.length)
+
+  // Hitung karyawan unik yang sudah 'Absen Masuk' HARI INI
+  const hadir = useMemo(() => {
+    const hadirSet = new Set(
+      aktivitas
+        .filter((a) => {
+          if (!a.waktu || a.tipe !== 'Absen Masuk') return false
+          const cleanDate = typeof a.waktu === 'string' ? a.waktu.split('T')[0] : ''
+          return cleanDate === today
+        })
+        .map((a) => a.nama)
+    )
+    return hadirSet.size
+  }, [aktivitas, today])
 
   const last24h = useMemo(() => {
     const cutoff = Date.now() - 24 * 60 * 60 * 1000
@@ -86,7 +99,7 @@ export default function Dashboard({ karyawan, aktivitas, shift, offRequests }) {
                 <div key={a.id} className="flex items-center justify-between bg-slate-800/40 border border-slate-700/40 rounded-xl px-3.5 py-2.5">
                   <div>
                     <p className="text-sm text-white">{a.nama}</p>
-                    <p className="text-xs text-muted">{a.jenisIzin}</p>
+                    <p className="text-xs text-muted">{a.jenisIzin || a.tipe}</p>
                   </div>
                   <div className="text-right">
                     {live ? (
@@ -99,7 +112,7 @@ export default function Dashboard({ karyawan, aktivitas, shift, offRequests }) {
                         <span className="inline-block px-2.5 py-1 rounded-full bg-slate-600/40 text-slate-300 text-xs font-medium">
                           Selesai
                         </span>
-                        <p className="text-[11px] text-muted mt-1">{a.durasi} menit</p>
+                        <p className="text-[11px] text-muted mt-1">{a.durasi ? `${a.durasi} menit` : '-'}</p>
                       </div>
                     )}
                   </div>
