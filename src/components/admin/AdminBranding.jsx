@@ -49,7 +49,7 @@ export default function AdminBranding({ onRefresh }) {
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://script.google.com/macros/s/XXXXXXXX/exec"
+          placeholder="https://script.google.com/macros/s/AKfycbz6r5dZlmjPFANDwhDyw_CdCuKCZwC-ggs7VfbpWjtfmGIokwYpUpXV11DALknERxSd0w/exec"
           className="w-full bg-slate-800/60 border border-slate-600 rounded-lg py-2 px-3 text-white font-mono text-sm"
         />
       </div>
