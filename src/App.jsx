@@ -75,29 +75,37 @@ export default function App() {
   }
 
   return (
-    <Shell user={user} tab={tab} setTab={setTab} onLogout={handleLogout}>
-      {tab === 'dashboard' && (
-        <Dashboard karyawan={karyawan} aktivitas={aktivitas} shift={shift} offRequests={offRequests} />
-      )}
-      {tab === 'izin' && (
-        <IzinSementara
-          user={user}
-          durasi={durasi}
-          aktivitas={aktivitas}
-          onRefresh={reloadAll}
-        />
-      )}
-      {tab === 'off' && (
-        <OffMatrix user={user} karyawan={karyawan} offRequests={offRequests} onRefresh={reloadAll} />
-      )}
-      {tab === 'admin' && (
-        <AdminPanel
-          karyawan={karyawan}
-          shift={shift}
-          durasi={durasi}
-          onRefresh={reloadAll}
-        />
-      )}
-    </Shell>
+    <div 
+      className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed relative"
+      style={{ backgroundImage: "url('/bg.jpg')" }}
+    >
+      {/* Overlay transparan agar teks/kartu dasbor tetap kontras dan mudah dibaca */}
+      <div className="min-h-screen bg-slate-950/85 backdrop-blur-xs">
+        <Shell user={user} tab={tab} setTab={setTab} onLogout={handleLogout}>
+          {tab === 'dashboard' && (
+            <Dashboard karyawan={karyawan} aktivitas={aktivitas} shift={shift} offRequests={offRequests} />
+          )}
+          {tab === 'izin' && (
+            <IzinSementara
+              user={user}
+              durasi={durasi}
+              aktivitas={aktivitas}
+              onRefresh={reloadAll}
+            />
+          )}
+          {tab === 'off' && (
+            <OffMatrix user={user} karyawan={karyawan} offRequests={offRequests} onRefresh={reloadAll} />
+          )}
+          {tab === 'admin' && (
+            <AdminPanel
+              karyawan={karyawan}
+              shift={shift}
+              durasi={durasi}
+              onRefresh={reloadAll}
+            />
+          )}
+        </Shell>
+      </div>
+    </div>
   )
 }
