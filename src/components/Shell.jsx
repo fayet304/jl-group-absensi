@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { LayoutDashboard, Timer, CalendarDays, Settings, LogOut, Building2 } from 'lucide-react'
+import { LayoutDashboard, Timer, CalendarDays, Settings, LogOut, Building2, RefreshCw } from 'lucide-react'
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -54,6 +54,18 @@ export default function Shell({ user, tab, setTab, onLogout, children }) {
               </div>
               <img src={user.fotoUrl} alt={user.nama} className="w-9 h-9 rounded-full object-cover border border-slate-700" />
             </div>
+
+            {/* Tombol Ganti Shift / Switch User */}
+            <button
+              onClick={onLogout}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass hover:bg-slate-800 hover:border-amber-500/50 text-amber-400 transition text-xs font-medium"
+              title="Ganti Shift / Switch User"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Ganti Shift</span>
+            </button>
+
+            {/* Tombol Logout */}
             <button
               onClick={onLogout}
               className="p-2 rounded-lg glass hover:border-red-500/50 hover:text-red-400 transition text-muted"

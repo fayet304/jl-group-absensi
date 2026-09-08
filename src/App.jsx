@@ -10,7 +10,16 @@ import { fetchSheet } from './services/api.js'
 const POLL_MS = 5000
 
 export default function App() {
-  const [user, setUser] = useState(null)
+  // Ambil user dari localStorage saat pertama kali dimuat (mencegah logout saat refresh F5)
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('active_user')
+      return savedUser ? JSON.parse(savedUser) : null
+    } catch {
+      return null
+    }
+  })
+
   const [tab, setTab] = useState('dashboard')
 
   const [karyawan, setKaryawan] = useState([])
@@ -42,21 +51,31 @@ export default function App() {
     return () => clearInterval(interval)
   }, [reloadAll])
 
+  // Simpan data user ke localStorage saat login
+  const handleLogin = (userData) => {
+    setUser(userData)
+    localStorage.setItem('active_user', JSON.stringify(userData))
+    setTab('dashboard')
+  }
+
+  // Hapus data user dari localStorage saat logout / ganti shift
+  const handleLogout = () => {
+    setUser(null)
+    localStorage.removeItem('active_user')
+  }
+
   if (!user) {
     return (
       <Login
         karyawan={karyawan}
         loading={loading}
-        onLogin={(u) => {
-          setUser(u)
-          setTab('dashboard')
-        }}
+        onLogin={handleLogin}
       />
     )
   }
 
   return (
-    <Shell user={user} tab={tab} setTab={setTab} onLogout={() => setUser(null)}>
+    <Shell user={user} tab={tab} setTab={setTab} onLogout={handleLogout}>
       {tab === 'dashboard' && (
         <Dashboard karyawan={karyawan} aktivitas={aktivitas} shift={shift} offRequests={offRequests} />
       )}
