@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(1200px 600px at 50% -10%, rgba(6, 182, 212, 0.12), transparent 60%),
+    linear-gradient(180deg, #0F172A 0%, #030712 100%);
+  color: #F1F5F9;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.35);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass {
+  background-color: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.glass-strong {
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.btn-glow {
+  background-image: linear-gradient(135deg, #06B6D4, #00E5C0);
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.45);
+}
+
+.text-muted {
+  color: #94A3B8;
+}
+
+input:focus, button:focus-visible {
+  outline: 2px solid rgba(6, 182, 212, 0.6);
+  outline-offset: 2px;
+}
