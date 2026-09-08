@@ -10,7 +10,6 @@ import { fetchSheet } from './services/api.js'
 const POLL_MS = 5000
 
 export default function App() {
-  // Ambil user dari localStorage saat pertama kali dimuat (mencegah logout saat refresh F5)
   const [user, setUser] = useState(() => {
     try {
       const savedUser = localStorage.getItem('active_user')
@@ -51,60 +50,58 @@ export default function App() {
     return () => clearInterval(interval)
   }, [reloadAll])
 
-  // Simpan data user ke localStorage saat login
   const handleLogin = (userData) => {
     setUser(userData)
     localStorage.setItem('active_user', JSON.stringify(userData))
     setTab('dashboard')
   }
 
-  // Hapus data user dari localStorage saat logout / ganti shift
   const handleLogout = () => {
     setUser(null)
     localStorage.removeItem('active_user')
   }
 
-  if (!user) {
-    return (
-      <Login
-        karyawan={karyawan}
-        loading={loading}
-        onLogin={handleLogin}
-      />
-    )
-  }
+  // Menyesuaikan path gambar otomatis untuk Vite & GitHub Pages
+  const bgPath = `${import.meta.env.BASE_URL}bg.jpg`
 
   return (
     <div 
       className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed relative"
-      style={{ backgroundImage: "url('/bg.jpg')" }}
+      style={{ backgroundImage: `url('${bgPath}')` }}
     >
-      {/* Overlay transparan agar teks/kartu dasbor tetap kontras dan mudah dibaca */}
-      <div className="min-h-screen bg-slate-950/85 backdrop-blur-xs">
-        <Shell user={user} tab={tab} setTab={setTab} onLogout={handleLogout}>
-          {tab === 'dashboard' && (
-            <Dashboard karyawan={karyawan} aktivitas={aktivitas} shift={shift} offRequests={offRequests} />
-          )}
-          {tab === 'izin' && (
-            <IzinSementara
-              user={user}
-              durasi={durasi}
-              aktivitas={aktivitas}
-              onRefresh={reloadAll}
-            />
-          )}
-          {tab === 'off' && (
-            <OffMatrix user={user} karyawan={karyawan} offRequests={offRequests} onRefresh={reloadAll} />
-          )}
-          {tab === 'admin' && (
-            <AdminPanel
-              karyawan={karyawan}
-              shift={shift}
-              durasi={durasi}
-              onRefresh={reloadAll}
-            />
-          )}
-        </Shell>
+      <div className="min-h-screen bg-slate-950/80 backdrop-blur-xs">
+        {!user ? (
+          <Login
+            karyawan={karyawan}
+            loading={loading}
+            onLogin={handleLogin}
+          />
+        ) : (
+          <Shell user={user} tab={tab} setTab={setTab} onLogout={handleLogout}>
+            {tab === 'dashboard' && (
+              <Dashboard karyawan={karyawan} aktivitas={aktivitas} shift={shift} offRequests={offRequests} />
+            )}
+            {tab === 'izin' && (
+              <IzinSementara
+                user={user}
+                durasi={durasi}
+                aktivitas={aktivitas}
+                onRefresh={reloadAll}
+              />
+            )}
+            {tab === 'off' && (
+              <OffMatrix user={user} karyawan={karyawan} offRequests={offRequests} onRefresh={reloadAll} />
+            )}
+            {tab === 'admin' && (
+              <AdminPanel
+                karyawan={karyawan}
+                shift={shift}
+                durasi={durasi}
+                onRefresh={reloadAll}
+              />
+            )}
+          </Shell>
+        )}
       </div>
     </div>
   )
