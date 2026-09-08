@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
-import { Users, Clock3, Timer, Palette } from 'lucide-react'
+import { Users, Clock3, Timer, Palette, CheckSquare, ShieldCheck } from 'lucide-react'
 import AdminKaryawan from './admin/AdminKaryawan.jsx'
 import AdminShift from './admin/AdminShift.jsx'
 import AdminDurasi from './admin/AdminDurasi.jsx'
 import AdminBranding from './admin/AdminBranding.jsx'
+import AdminOff from './admin/AdminOff.jsx'
+import AdminAccess from './admin/AdminAccess.jsx'
 
 const SUB_TABS = [
   { id: 'karyawan', label: 'Karyawan', icon: Users },
   { id: 'shift', label: 'Jadwal Shift', icon: Clock3 },
   { id: 'durasi', label: 'Durasi Izin', icon: Timer },
+  { id: 'off', label: 'Persetujuan Off', icon: CheckSquare },
+  { id: 'akses', label: 'Akses Admin', icon: ShieldCheck },
   { id: 'branding', label: 'Branding', icon: Palette },
 ]
 
@@ -39,6 +43,8 @@ export default function AdminPanel({ karyawan, shift, durasi, onRefresh }) {
       {sub === 'karyawan' && <AdminKaryawan karyawan={karyawan} onRefresh={onRefresh} />}
       {sub === 'shift' && <AdminShift shift={shift} onRefresh={onRefresh} />}
       {sub === 'durasi' && <AdminDurasi durasi={durasi} onRefresh={onRefresh} />}
+      {sub === 'off' && <AdminOff onRefresh={onRefresh} />}
+      {sub === 'akses' && <AdminAccess onRefresh={onRefresh} />}
       {sub === 'branding' && <AdminBranding onRefresh={onRefresh} />}
     </div>
   )
