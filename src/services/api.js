@@ -34,7 +34,7 @@ const SEED = {
 }
 
 export function getEndpoint() {
-  return localStorage.getItem(ENDPOINT_KEY) || ''
+  return localStorage.getItem(ENDPOINT_KEY) || 'https://script.google.com/macros/s/AKfycbz6r5dZlmjPFANDwhDyw_CdCuKCZwC-ggs7VfbpWjtfmGIokwYpUpXV11DALknERxSd0w/exec'
 }
 
 export function setEndpoint(url) {
