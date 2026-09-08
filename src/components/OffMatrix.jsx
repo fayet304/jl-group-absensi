@@ -20,7 +20,15 @@ export default function OffMatrix({ user, karyawan, offRequests, onRefresh }) {
 
   const findStatus = (nama, day) => {
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-    const req = offRequests.find((o) => o.nama === nama && o.tanggal === dateStr)
+    
+    const req = offRequests.find((o) => {
+      if (o.nama !== nama || !o.tanggal) return false
+      
+      // Mengambil 10 karakter pertama (YYYY-MM-DD) agar cocok walau formatnya ISO String
+      const cleanDate = typeof o.tanggal === 'string' ? o.tanggal.split('T')[0] : ''
+      return cleanDate === dateStr
+    })
+    
     return req ? req.status : null
   }
 
